@@ -2,6 +2,7 @@ package com.hoaxfyu.hoaxify;
 
 import com.hoaxfyu.hoaxify.User.User;
 import com.hoaxfyu.hoaxify.User.UserRepository;
+import com.hoaxfyu.hoaxify.shared.GenericResponse;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -41,6 +42,13 @@ public class UserControllerTest {
         testRestTemplate.postForEntity(PATH, user, Object.class);
         assertThat(userRepository.count()).isEqualTo(1);
 
+    }
+
+    @Test
+    public void postUser_whenUserIsValid_receiveSuccess(){
+        User user = createValidUser();
+        ResponseEntity<GenericResponse> response = testRestTemplate.postForEntity(PATH, user, GenericResponse.class);
+        assertThat(response.getBody().getMessage()).isNotNull();
     }
 
     private User createValidUser(){
